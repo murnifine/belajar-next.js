@@ -5,11 +5,17 @@ generator client {
    provider = "prisma-client-js"
 }
 
+// SUPABASE
 datasource db {
-   provider          = "mysql"
+   provider          = "postgresql"
    url               = env("DATABASE_URL")
-   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
+// datasource db {
+//    provider          = "mysql"
+//    url               = env("DATABASE_URL")
+//    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+// }
 
 model Account {
   id                 String  @id @default(cuid())
