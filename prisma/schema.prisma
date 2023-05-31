@@ -16,7 +16,7 @@ datasource db {
 //    url               = env("DATABASE_URL")
 //    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 // }
-
+// s
 model Account {
   id                 String  @id @default(cuid())
   userId             String
