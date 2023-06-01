@@ -1,11 +1,27 @@
-import LoginForm from "@/components/login-form";
+import LoginForm from "@/app/login/login-form";
+import prisma from "@/lib/prisma";
+import { Suspense } from "react";
 
-const Login = async () => {
+export default function Page() {
+  async function cekUser(username: string, password: string) {
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+    "use server";
+    const dbUser = await prisma.user.findFirst({
+      where: {
+        username,
+      },
+    });
+
+    return dbUser;
+  }
+
   return (
-    <>
-      <LoginForm />
-    </>
-  );
-};
+    <div className="flex flex-col">
+      <div className="text-3xl font-bold text-center">Login</div>
 
-export default Login;
+      <Suspense fallback={<p>Loading Datanya</p>}>
+        <LoginForm cekUser={cekUser} />
+      </Suspense>
+    </div>
+  );
+}

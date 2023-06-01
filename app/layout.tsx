@@ -1,13 +1,14 @@
 import { getServerSession } from "next-auth";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Loginform from "@/components/login-form";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import Provider from "@/components/provider";
 
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 export const metadata = {
   title: "Create Next App",
@@ -30,7 +31,10 @@ export default async function RootLayout({
         <Provider>
           {/* @ts-expect-error Async Server Component */}
           <Header />
-          <main className="flex-1 container mx-auto py-5">{children}</main>
+
+          <main className="flex-1 container mx-auto py-5 flex justify-center items-center">
+            {children}
+          </main>
           <Footer />
           <Toaster />
         </Provider>

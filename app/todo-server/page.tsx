@@ -8,6 +8,8 @@ import TodoList from "./todo-list";
 import Link from "next/link";
 import { AlertDataEmpty } from "./alert-data-empty";
 import { getServerSession } from "next-auth";
+import { Loader2, Save } from "lucide-react";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -15,6 +17,8 @@ export default async function Page({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getServerSession();
+
+  console.log({ session });
 
   // !session && redirect("/login");
 
@@ -49,8 +53,6 @@ export default async function Page({
     "use server";
     let { title } = Object.fromEntries(formData);
     // let title  = Object.fromEntries(formData).title;
-
-    console.log("oscar");
 
     await prisma.todo.create({
       data: {
@@ -105,30 +107,40 @@ export default async function Page({
         <Link href={"/todo"}>To Do List</Link>
       </Button>
 
-      <form action={handleSubmit} className="flex gap-3" key={allTodo[0]?.id}>
-        <Input placeholder="..." name="title" autoFocus />
-        <Button type="submit">Add</Button>
-      </form>
+      <Suspense fallback={<h1>Loading Data</h1>}>
+        <form
+          action={handleSubmit}
+          className="flex gap-3 "
+          key={allTodo[0]?.id}
+        >
+          <Input placeholder="..." name="title" autoFocus />
+          <Button type="submit" className="w-40">
+            <Save className="mr-2 h-4 w-4" />
+            {/* <Loader2 className="mr-2 h-4 w-4 animate-spin" /> */}
+            Tambah
+          </Button>
+        </form>
 
-      {totalData >= 1 ? (
-        <>
-          <div className="mt-10 flex flex-col">
-            {allTodo.map((item) => (
-              <TodoList
-                id={item.id}
-                isComplete={item.isComplete}
-                title={item.title}
-                key={item.id}
-                todoCompleted={todoCompleted}
-                deleteTodo={deleteTodo}
-                updateTodo={updateTodo}
-              />
-            ))}
-          </div>
-        </>
-      ) : (
-        <AlertDataEmpty />
-      )}
+        {totalData >= 1 ? (
+          <>
+            <div className="mt-10 flex flex-col">
+              {allTodo.map((item) => (
+                <TodoList
+                  id={item.id}
+                  isComplete={item.isComplete}
+                  title={item.title}
+                  key={item.id}
+                  todoCompleted={todoCompleted}
+                  deleteTodo={deleteTodo}
+                  updateTodo={updateTodo}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <AlertDataEmpty />
+        )}
+      </Suspense>
 
       <div className="flex gap-3  justify-between my-4">
         <div className="text-sm">Halaman {halaman}</div>

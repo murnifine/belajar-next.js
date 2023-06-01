@@ -1,3 +1,7 @@
-export { default } from "next-auth/middleware"
+export { default } from "next-auth/middleware";
 
-export const config = { matcher: ["/todo"] }
+export const config = {
+    // matcher: ["/profile"],
+    matcher: ["/todo-client"],
+    // matcher: ["/((?!register|api|login).*)", "/todo-client"],
+};

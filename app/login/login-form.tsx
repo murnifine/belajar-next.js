@@ -1,26 +1,35 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
+import { User } from "@prisma/client";
 
-function LoginForm() {
-  const [name, setName] = useState<undefined | string>();
-  const [password, setPassword] = useState<undefined | string>();
+function LoginForm({
+  cekUser,
+}: {
+  cekUser: (username: string, password: string) => Promise<User | null>;
+}) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  async function handleLogin() {
+    // tidak dipakai
+    // const userExist = await cekUser(username, password);
+
     signIn("credentials", {
-      username: name,
+      username,
       password,
-      callbackUrl: "/todo",
+      callbackUrl: "/",
     });
   }
+
+  // async function action(formData: FormData) {
+  //   await handleSubmit(formData);
+  // }
+
   return (
     <section className="flex justify-center items-center">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-2 p-5 max-w-xs w-full bg-white shadow-lg rounded-lg"
-      >
-        <div className="head text-center">
+      <div className="flex flex-col gap-2 p-5 max-w-xs w-full bg-white shadow-lg rounded-lg">
+        {/* <div className="head text-center">
           <h3 className="font-semibold">You must be sign in to join</h3>
           <small>we are A Team that guides Each other</small>
         </div>
@@ -37,13 +46,14 @@ function LoginForm() {
           <small className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-white w-8 text-center">
             Or
           </small>
-        </div>
+        </div> */}
+
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <label htmlFor="name">Email or Username</label>
             <input
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
               type="text"
               className="p-3 border border-slate-700 rounded-lg"
               id="name"
@@ -65,12 +75,12 @@ function LoginForm() {
           </div>
         </div>
         <button
-          type="submit"
+          onClick={handleLogin}
           className="mt-4 bg-slate-900 text-white p-3 rounded-lg"
         >
           Sign in
         </button>
-      </form>
+      </div>
     </section>
   );
 }
