@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
-import { addTodo, deleteTodo, getTodo } from "./action";
+import { addTodo, deleteTodo, getTodo, updateTodo } from "./action";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { PenBox, Trash2 } from "lucide-react";
@@ -21,34 +21,31 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Swr() {
   const { data, error, isLoading, mutate } = useSWR("cuy", getTodo, {
-    refreshInterval: 1000,
+    // refreshInterval: 1000,
     onSuccess: (data) => data.sort((a, b) => b.id - a.id),
   });
   const [input, setInput] = useState("");
 
   async function handleCreate(input: string) {
     setInput("");
-    const newTodo = [
-      {
-        id: Date.now(),
-        title: input,
-        status: "create",
-      },
-      ...(data as any),
-    ];
-
     const addMutation = async () => {
-      await addTodo(input);
-      return newTodo;
+      const todo = await addTodo(input);
+      return [todo, ...(data as any)];
     };
 
     const mutateOptions = {
-      optimisticData: newTodo,
+      optimisticData: [
+        {
+          id: Date.now(),
+          title: input,
+          status: "create",
+        },
+        ...(data as any),
+      ],
       rollbackOnError: true,
       populateCache: true,
       revalidate: false,
     };
-
     try {
       await mutate(addMutation(), mutateOptions);
       toast({
@@ -83,8 +80,8 @@ export default function Swr() {
 
     try {
       await mutate(async () => {
-        await deleteTodo(id);
-        return newTodo;
+        const updatetodo = await updateTodo(id, title);
+        return [updatetodo, ...filtered];
       }, mutateOptions);
       toast({
         title: "Berhasil di Ubah",

@@ -1,7 +1,8 @@
-import { Button, Input, InputWrapper } from "@mantine/core";
 import ReactQuery from "./react-query";
 import Swr from "./swr";
 import { FaSave } from "react-icons/fa";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button } from "@mantine/core";
 
 export default async function Page() {
   return (
