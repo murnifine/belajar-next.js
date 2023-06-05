@@ -36,6 +36,9 @@ export default async function Header() {
               <Link href="/">Home</Link>
             </li>
             <li className="mx-4">
+              <Link href="/realtime">RealTime</Link>
+            </li>
+            <li className="mx-4">
               <Link className="" href="/rahasia">
                 Rahasia
               </Link>

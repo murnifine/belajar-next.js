@@ -32,6 +32,8 @@
     "lib/prisma.js",
     "components/header.tsx",
     "app/test/optimistic.tsx"
-  ],
+,
+"app/realtime/swr.tsx"
+],
   "exclude": ["node_modules"]
 }

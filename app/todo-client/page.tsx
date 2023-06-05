@@ -19,7 +19,7 @@ export default function Page({
         asChild
         className="text-3xl leading-normal my-3 self-start"
       >
-        <Link href={"/todo-client"}>To Do List</Link>
+        <Link href={"/todo-client"}>Todo List</Link>
       </Button>
 
       <Suspense fallback={<p>Loading...</p>}>
