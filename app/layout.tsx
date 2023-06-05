@@ -1,3 +1,4 @@
+import "@mantine/core/styles.css";
 import { getServerSession } from "next-auth";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -6,9 +7,9 @@ import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import Provider from "@/components/provider";
 
+import { MantineProvider, ColorSchemeScript, createTheme } from "@mantine/core";
+
 const inter = Inter({ subsets: ["latin"] });
-
-
 
 export const metadata = {
   title: "Create Next App",
@@ -24,20 +25,26 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+        <link rel="shortcut icon" href="/favicon.svg" />
+      </head>
       <body
         className={inter.className + " h-screen flex flex-col"}
         suppressHydrationWarning={true}
       >
-        <Provider>
-          {/* @ts-expect-error Async Server Component */}
-          <Header />
+        <MantineProvider>
+          <Provider>
+            {/* @ts-expect-error Async Server Component */}
+            <Header />
 
-          <main className="flex-1 container mx-auto py-5 flex justify-center items-center">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
-        </Provider>
+            <main className="flex-1 container mx-auto py-5 flex justify-center items-center">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+          </Provider>
+        </MantineProvider>
       </body>
     </html>
   );
