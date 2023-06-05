@@ -21,7 +21,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Swr() {
   const { data, error, isLoading, mutate } = useSWR("cuy", getTodo, {
-    // refreshInterval: 1000,
+    refreshInterval: 1000,
     onSuccess: (data) => data.sort((a, b) => b.id - a.id),
   });
   const [input, setInput] = useState("");
