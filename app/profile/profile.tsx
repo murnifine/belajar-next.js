@@ -1,8 +1,7 @@
 import { authOptions } from "@/lib/auth";
-import { Session, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 
 export default async function Profile() {
-  // await new Promise((resolve) => setTimeout(resolve, 4000));
   const session = await getServerSession(authOptions);
 
   if (!session) {

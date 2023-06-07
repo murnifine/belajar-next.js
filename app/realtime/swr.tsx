@@ -18,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
+import useSound from "use-sound";
+// import musik from "../../assets/musik.mp3";
 
 export default function Swr() {
   const { data, error, isLoading, mutate } = useSWR("cuy", getTodo, {
@@ -122,10 +124,14 @@ export default function Swr() {
     }
   }
 
+  // const [play] = useSound(musik);
+
   if (error) return "An error has occurred.";
   if (isLoading) return "Loading...";
   return (
     <div>
+      <audio src="/music.mp3"></audio>
+      {/* <button onClick={play}>Boop!HAi</button>; */}
       <h1 className="text-3xl mb-8">Test Realtime Data</h1>
       <div className="flex gap-2">
         <Input
